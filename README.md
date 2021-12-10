@@ -1,5 +1,5 @@
 # GEOG495AdultLiteracyRateMap
-This github project is about visualizing the Adult Literacy Rate for U.S adults. 
+This github project is about visualizing the Adult Literacy Rate for U.S adults. This project visually shows the U.S Adult Literacy Rate per county as an interactive web application. There is a search bar that can be used to find locations in the U.S and the Adult Literacy Rate for that county will be displayed in the upper lefthand corner. If you do not see the data on the map, try refreshing the page.
 
 Access the application here: https://aembar.github.io/GEOG495AdultLiteracyRateMap/
 
