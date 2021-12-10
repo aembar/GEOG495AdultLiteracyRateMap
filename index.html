@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="utf-8">
+    <title>U.S PIAAC State Indicators of Adult Literacy Interactive Web Map</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css" rel="stylesheet">
+    <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css' type='text/css' />
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.js"></script>
+    <script src='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.min.js'></script>
+    <style>
+        h2{
+            margin: 10px;
+            font-size: 18px;
+            line-height: 18px;
+            z-index: 1;
+            overflow: hidden;
+            margin-bottom: -2px;
+            max-height: 100%;
+            
+        }
+        h2::-webkit-scrollbar {
+            display: none;  
+        }
+        h3 {
+            margin: 10px;
+            font-size: 18px;
+        }
+
+        h3 {
+            font-size: 16px;
+        }
+
+        p {
+            margin: 10px;
+        }
+
+        #map {
+            position: absolute;
+            top: 0;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            width: 100%;
+            height: 100%;
+        }
+        #sidebar {
+            position: absolute;
+            width: 20%;
+            height: 100%;
+            background-color: rgba(255, 255, 255, 0.5);
+        }
+        .map-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            /* background: rgba(255, 255, 255, 0.8); */
+            background-color: rgba(255, 255, 255, 0.5);
+            border-style: solid;
+            border-width: 1px;
+            border-color: rgba(0, 0, 0, 0.2);
+            margin-left: 20px;
+            font-family: Arial, sans-serif;
+            overflow: auto;
+            border-radius: 3px;
+            z-index: 1;
+            overflow: hidden;
+            margin-bottom: -2px;
+            max-height: 100%;
+        }
+
+        #features {
+            top: 0;
+            height: 100px;
+            margin-top: 20px;
+            width: 250px;
+        }
+
+        #legend {
+            padding: 10px;
+            box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+            line-height: 18px;
+            height: 47%;
+            margin-bottom: 40px;
+            width: 16%;
+        }
+
+        .legend-key {
+            display: inline-block;
+            border-radius: 20%;
+            width: 10px;
+            height: 10px;
+            margin-right: 5px;
+        }
+
+        .mapboxgl-canvas-container.mapboxgl-interactive,
+        .mapboxgl-ctrl-group button.mapboxgl-ctrl-compass {
+            cursor: unset;
+        }
+    </style>
+</head>
+
+<body>
+    <div id="map"></div>
+    <div class='map-overlay' id='features'>
+        <h2> U.S Adult Literacy Rates by County
+        </h2>
+        <div id='text-escription'>
+            <p>Hover over a county to see the data.</p>
+        </div>
+    </div>
+    <div class='map-overlay' id='legend'></div>
+    <script>
+        mapboxgl.accessToken =
+            'pk.eyJ1IjoiYWRkZW1iYXIiLCJhIjoiY2t2N2N5cGNqMW8xZTJvcDZiYjJvdHNrZCJ9.lh86cTWxhaoyHRu-g4IXbQ';
+        const map = new mapboxgl.Map({
+            container: 'map', 
+            style: 'mapbox://styles/mapbox/dark-v10',
+            zoom: 3.5, 
+            center: [-100, 39] 
+        });
+
+        const marker = new mapboxgl.Marker()
+
+        
+ 
+        const geocoder = new MapboxGeocoder({
+        // Initialize the geocoder
+            accessToken: mapboxgl.accessToken, // Set the access token
+            mapboxgl: mapboxgl, // Set the mapbox-gl instance
+            marker: true, // Do not use the default marker style
+            placeholder: 'Search in the U.S', // Placeholder text for the search bar
+            bbox: [-180.0, -90.0, 180, 90], // Boundary for Berkeley
+            proximity: {
+            longitude: -122.25948,
+            latitude: 37.87221
+            } // Coordinates of UC Berkeley
+        });
+ 
+        // Add the geocoder to the map
+        map.addControl(geocoder);
+ 
+        // After the map style has loaded on the page,
+        // add a source layer and default styling for a single point
+        
+
+        async function geojsonFetch() {
+            let response = await fetch('assets/PIAAC_County_Indicators_of_Adult_Literacy_and_Numeracy.geojson');
+            let literacyData = await response.json();
+
+            map.on('load', function loadingData() {
+                
+                map.addSource('literacyData', {
+                    type: 'geojson',
+                    data: literacyData
+                });
+                map.addSource('single-point', {
+                    'type': 'geojson',
+                    'data': {
+                    'type': 'FeatureCollection',
+                    'features': []
+                    }
+                });
+
+                map.addLayer({
+                    'id': 'literacyData-layer',
+                    'type': 'fill',
+                    'source': 'literacyData',
+                    'paint': {
+                        'fill-color': [
+                            'step',
+                            ['get', 'Lit_P1'],
+                            // '#ffffcc',   // stop_output_0
+                            // 0.10,          // stop_input_0
+                            // '#ffeda0',   // stop_output_1
+                            // 0.15,          // stop_input_1
+                            // '#fed976',   // stop_output_2
+                            // 0.25,          // stop_input_2
+                            // '#feb24c',   // stop_output_3
+                            // 0.30,         // stop_input_3
+                            // '#fd8d3c',   // stop_output_4
+                            // 0.35,         // stop_input_4
+                            // '#fc4e2a',   // stop_output_5
+                            // 0.40,         // stop_input_5
+                            // '#e31a1c',   // stop_output_6
+                            // 0.45,        // stop_input_6
+                            // "#b10026"    // stop_output_7
+                            '#e5f5f9',   // stop_output_0
+                            0.10,          // stop_input_0
+                            '#ccece6',   // stop_output_1
+                            0.15,          // stop_input_1
+                            '#99d8c9',   // stop_output_2
+                            0.25,          // stop_input_2
+                            '#66c2a4',   // stop_output_3
+                            0.30,         // stop_input_3
+                            '#41ae76',   // stop_output_4
+                            0.35,         // stop_input_4
+                            '#238b45',   // stop_output_5
+                            0.40,         // stop_input_5
+                            '#006d2c',   // stop_output_6
+                            0.45,        // stop_input_6
+                            '#00441b'   // stop_output_7
+                        ],
+                        'fill-outline-color': '#BBBBBB',
+                        'fill-opacity': 0.9,
+                    }
+                });
+                map.addLayer({
+                    'id': 'point',
+                    'source': 'single-point',
+                    'type': 'Point',
+                    // 'paint': {
+                    // 'circle-radius': 10,
+                    // 'circle-color': '#448ee4'
+                    // }
+                });
+                geocoder.on('result', (event) => {
+                    map.getSource('single-point').setData(event.result.geometry);
+                });
+                const layers = [
+                    '0.0-0.10',
+                    '0.11-0.15',
+                    '0.16-0.20',
+                    '0.21-0.25',
+                    '0.26-0.30',
+                    '0.31-0.35',
+                    '0.36-0.40',
+                    '0.45 and more'
+                ];
+                const colors = [
+                    // '#ffffcc90',
+                    // '#ffeda090',
+                    // '#fed97690',
+                    // '#feb24c90',
+                    // '#fd8d3c90',
+                    // '#fc4e2a90',
+                    // '#e31a1c90',
+                    // '#b1002690'
+                    '#e5f5f990',
+                    '#ccece690',
+                    '#99d8c990',
+                    '#66c2a490',
+                    '#41ae7690',
+                    '#238b4590',
+                    '#006d2c90',
+                    '#00441b90'
+                ];
+
+                const legend = document.getElementById('legend');
+                //legend.innerHTML = "<b>U.S PIAAC State Indicators of Adult Literacy Rates <br></b><br><br>";
+                legend.innerHTML = "<b>U.S PIAAC State Indicators of Adult Literacy Rates <b><br><br>";
+
+                legend.innerHTML += "<b>Details: <br></b>";
+
+                legend.innerHTML += "<font size='2'>The National Center for Education Statistics surveyed U.S. adults for the Program for the International Assessment of Adult Competencies (PIAAC).<br><br></font>";
+
+                legend.innerHTML += '<font size="2">Data obtained from data.gov: <a href="https://catalog.data.gov/dataset/piaac-state-indicators-of-adult-literacy-and-numeracy"> U.S Adult Literacy Data</a></font>';
+
+
+
+                layers.forEach((layer, i) => {
+                    const color = colors[i];
+                    const item = document.createElement('div');
+                    const key = document.createElement('span');
+                    key.className = 'legend-key';
+                    key.style.backgroundColor = color;
+                    key.style.borderColor = "black";
+                    //key.style.border = "1px";
+                    key.style.borderWidth = "1px";
+
+
+                    const value = document.createElement('span');
+                    value.innerHTML = `${layer}`;
+                    item.appendChild(key);
+                    item.appendChild(value);
+                    legend.appendChild(item);
+                });
+            });
+
+            map.on('mousemove', ({point}) => {
+                const county = map.queryRenderedFeatures(point, {
+                    layers: ['literacyData-layer']
+                });
+                document.getElementById('text-escription').innerHTML = county.length ?
+                    `<h3>${county[0].properties.County}</h3><p><strong><em>${county[0].properties.Lit_P1}</strong> per county</em></p><p><strong><em>${county[0].properties.Employed}</strong> Employed</em></p>` :
+
+                    `<p>Hover over a county to see Literacy Rate.</p>`;
+            });
+        }
+
+        geojsonFetch();
+    </script>
+
+</body>
+
+</html>
