@@ -1,5 +1,3 @@
-# GEOG495AdultLiteracyRateMap
-
 # Project Title: U.S Adult Literacy Rate Map by County
 
 # Project Description 
