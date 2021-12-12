@@ -3,7 +3,7 @@
 # Project Description 
 This github project is about visualizing the Adult Literacy Rate for U.S adults. This project visually shows the U.S Adult Literacy Rate per county as an interactive web application. There is a search bar that can be used to find locations in the U.S and the Adult Literacy Rate for that county will be displayed in the upper lefthand corner. If you do not see the data on the map, try refreshing the page. The user can enter any number of locations into the search bar to look up the Adult Literacy Rate for their county. 
 
-This application uses a combination of HTML, CSS and Javascript for all the front-end/back-end functionalities it supports.That being said all of the code is located in a single html file called index.html. This application also uses mapbox in order to display a map of the United States. All of the data is taken from data.gov, for more information click the hyperlink in the application to learn more about how the data was collected and which organizations use this data. 
+This application uses a combination of HTML, CSS and Javascript for all the front-end/back-end functionalities it supports.That being said all of the code is located in a single html file called index.html. This application also uses mapbox in order to display a map of the United States. All of the data is taken from data.gov, for more information click the hyperlink in the application to learn more about how the data was collected and which organizations use this data. The dataset I used had addtional columns that could have been indicators of why certain counties had lower/higher than expected values, but for clarity sake I wanted to focus solely on the Literacy Rate as not to confuse what the original topic was.
 
 
 # Project Goal
