@@ -3,7 +3,7 @@
 
 <head>
     <meta charset="utf-8">
-    <title>U.S PIAAC State Indicators of Adult Literacy Interactive Web Map</title>
+    <title>U.S PIAAC County Indicators of Adult Literacy Interactive Web Map</title>
     <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no">
     <link href="https://api.mapbox.com/mapbox-gl-js/v2.5.0/mapbox-gl.css" rel="stylesheet">
     <link rel='stylesheet' href='https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v4.7.0/mapbox-gl-geocoder.css' type='text/css' />
@@ -131,11 +131,11 @@
             mapboxgl: mapboxgl, // Set the mapbox-gl instance
             marker: true, // Do not use the default marker style
             placeholder: 'Search in the U.S', // Placeholder text for the search bar
-            bbox: [-180.0, -90.0, 180, 90], // Boundary for Berkeley
+            bbox: [-180.0, -90.0, 180, 90], // Boundary for World
             proximity: {
             longitude: -122.25948,
             latitude: 37.87221
-            } // Coordinates of UC Berkeley
+            }
         });
  
         // Add the geocoder to the map
@@ -171,21 +171,6 @@
                         'fill-color': [
                             'step',
                             ['get', 'Lit_P1'],
-                            // '#ffffcc',   // stop_output_0
-                            // 0.10,          // stop_input_0
-                            // '#ffeda0',   // stop_output_1
-                            // 0.15,          // stop_input_1
-                            // '#fed976',   // stop_output_2
-                            // 0.25,          // stop_input_2
-                            // '#feb24c',   // stop_output_3
-                            // 0.30,         // stop_input_3
-                            // '#fd8d3c',   // stop_output_4
-                            // 0.35,         // stop_input_4
-                            // '#fc4e2a',   // stop_output_5
-                            // 0.40,         // stop_input_5
-                            // '#e31a1c',   // stop_output_6
-                            // 0.45,        // stop_input_6
-                            // "#b10026"    // stop_output_7
                             '#e5f5f9',   // stop_output_0
                             0.10,          // stop_input_0
                             '#ccece6',   // stop_output_1
@@ -210,10 +195,7 @@
                     'id': 'point',
                     'source': 'single-point',
                     'type': 'Point',
-                    // 'paint': {
-                    // 'circle-radius': 10,
-                    // 'circle-color': '#448ee4'
-                    // }
+                    
                 });
                 geocoder.on('result', (event) => {
                     map.getSource('single-point').setData(event.result.geometry);
@@ -229,14 +211,6 @@
                     '0.45 and more'
                 ];
                 const colors = [
-                    // '#ffffcc90',
-                    // '#ffeda090',
-                    // '#fed97690',
-                    // '#feb24c90',
-                    // '#fd8d3c90',
-                    // '#fc4e2a90',
-                    // '#e31a1c90',
-                    // '#b1002690'
                     '#e5f5f990',
                     '#ccece690',
                     '#99d8c990',
@@ -248,14 +222,13 @@
                 ];
 
                 const legend = document.getElementById('legend');
-                //legend.innerHTML = "<b>U.S PIAAC State Indicators of Adult Literacy Rates <br></b><br><br>";
-                legend.innerHTML = "<b>U.S PIAAC State Indicators of Adult Literacy Rates <b><br><br>";
+                legend.innerHTML = "<b>U.S PIAAC County Indicators of Adult Literacy Rates <b><br><br>";
 
                 legend.innerHTML += "<b>Details: <br></b>";
 
-                legend.innerHTML += "<font size='2'>The National Center for Education Statistics surveyed U.S. adults for the Program for the International Assessment of Adult Competencies (PIAAC).<br><br></font>";
+                legend.innerHTML += "<font size='1'>Literacy Rates are measured as a proportion of the population for that county. The National Center for Education Statistics surveyed U.S. adults for the Program for the International Assessment of Adult Competencies (PIAAC).<br><br></font>";
 
-                legend.innerHTML += '<font size="2">Acknowledgments: Data obtained from data.gov <a href="https://catalog.data.gov/dataset/piaac-state-indicators-of-adult-literacy-and-numeracy"> U.S Adult Literacy Data</a></font>';
+                legend.innerHTML += '<font size="2">Acknowledgments: Data obtained from data.gov <a href="https://catalog.data.gov/dataset/piaac-county-indicators-of-adult-literacy-and-numeracy"> U.S Adult Literacy Data</a></font>';
 
 
 
