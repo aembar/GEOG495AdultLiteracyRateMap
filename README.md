@@ -14,7 +14,7 @@ I also wanted to make this project open source so that anyone would be able to u
 # Access the application here: 
 https://aembar.github.io/GEOG495AdultLiteracyRateMap/
 
-![](https://github.com/aembar/GEOG495AdultLiteracyRateMap/blob/main/imgs/Screen%20Shot%202021-12-09%20at%205.59.48%20PM.png)
+![](https://github.com/aembar/GEOG495AdultLiteracyRateMap/blob/main/imgs/firstss.png)
 
 
 # Main Functions 
@@ -23,7 +23,7 @@ https://aembar.github.io/GEOG495AdultLiteracyRateMap/
 
 In the search bar enter a location to see the Adult Literacy Rate for your county. Click the ‘X’ button in the top right hand corner to clear the search so that you may enter a new location. When you enter a location in the search bar, the application will ping and zoom in on that area. 
 
-![](https://github.com/aembar/GEOG495AdultLiteracyRateMap/blob/main/imgs/Screen%20Shot%202021-12-09%20at%207.11.37%20PM.png)
+![](https://github.com/aembar/GEOG495AdultLiteracyRateMap/blob/main/imgs/secondss.png)
 
 ## Literacy Rate
 
